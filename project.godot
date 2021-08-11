@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "KinematicBody",
 "class": "Player",
 "language": "GDScript",
-"path": "res://Gameplay/Player/Player.gd"
+"path": "res://gameplay/player/Player.gd"
 } ]
 _global_script_class_icons={
 "Player": ""
@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="NeonTop"
-run/main_scene="res://Gameplay/test.tscn"
+run/main_scene="res://gameplay/test.tscn"
 config/icon="res://icon.png"
 
 [display]
