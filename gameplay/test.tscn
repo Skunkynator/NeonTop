@@ -1,78 +1,38 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://gameplay/player/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://test_follow.gd" type="Script" id=2]
 [ext_resource path="res://neon.tres" type="Shader" id=3]
 [ext_resource path="res://model_assets/tree.glb" type="PackedScene" id=5]
 [ext_resource path="res://model_assets/tree_001.glb" type="PackedScene" id=6]
 [ext_resource path="res://gameplay/obstacles/spike_001.tscn" type="PackedScene" id=7]
 
-[sub_resource type="Curve3D" id=1]
-_data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0.0149288, 0.00638735, 2.47458, 0, 0, 0, 0, 0, 0, -0.00161171, -0.0101498, -2.05661 ),
-"tilts": PoolRealArray( 0, 0 )
-}
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = ExtResource( 3 )
-shader_param/Offset = Vector3( 0, 0.25, 0 )
-shader_param/Scale = 0.5
-shader_param/Colour = Color( 1, 0, 0, 1 )
-
-[sub_resource type="CubeMesh" id=3]
-material = SubResource( 2 )
-size = Vector3( 2, 0.5, 2 )
-
-[sub_resource type="BoxShape" id=4]
-
-[sub_resource type="BoxShape" id=5]
+[sub_resource type="BoxShape" id=1]
 extents = Vector3( 50, 1, 50 )
 
-[sub_resource type="ShaderMaterial" id=6]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 3 )
 shader_param/Offset = Vector3( 0, 1, 0 )
 shader_param/Scale = 2.0
 shader_param/Colour = Color( 0.117647, 0.67451, 0, 1 )
 
-[sub_resource type="CubeMesh" id=7]
-material = SubResource( 6 )
+[sub_resource type="CubeMesh" id=3]
+material = SubResource( 2 )
 size = Vector3( 100, 2, 100 )
 
-[sub_resource type="BoxShape" id=8]
+[sub_resource type="BoxShape" id=4]
 extents = Vector3( 5, 0.5, 5 )
 
-[sub_resource type="ShaderMaterial" id=9]
+[sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 3 )
 shader_param/Offset = Vector3( 0, 0.5, 0 )
 shader_param/Scale = 1.0
 shader_param/Colour = Color( 1, 0, 0.960784, 1 )
 
-[sub_resource type="CubeMesh" id=10]
-material = SubResource( 9 )
+[sub_resource type="CubeMesh" id=6]
+material = SubResource( 5 )
 size = Vector3( 10, 1, 10 )
 
 [node name="Spatial" type="Spatial"]
-
-[node name="Path" type="Path" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5417, 0.282862, -14.053 )
-curve = SubResource( 1 )
-
-[node name="PathFollow" type="PathFollow" parent="Path"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0149288, 0.00638735, 2.47458 )
-rotation_mode = 0
-script = ExtResource( 2 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Path/PathFollow"]
-mesh = SubResource( 3 )
-material/0 = null
-
-[node name="KinematicBody" type="StaticBody" parent="Path/PathFollow"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Path/PathFollow/KinematicBody"]
-transform = Transform( 1, 0, 0, 0, 0.25, 0, 0, 0, 1, 0, 0, 0 )
-shape = SubResource( 4 )
-
-[node name="Tween" type="Tween" parent="Path/PathFollow"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.09325, 1.47895, -8.4877e-05 )
@@ -81,10 +41,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.09325, 1.47895, -8.4877e-05 
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.969, 0 )
-shape = SubResource( 5 )
+shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="StaticBody2/CollisionShape"]
-mesh = SubResource( 7 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="StaticBody4" type="StaticBody" parent="."]
@@ -92,12 +52,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.36341, 11.1064, -18.4452 )
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody4"]
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.38921, 0 )
-shape = SubResource( 8 )
+shape = SubResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="StaticBody4/CollisionShape"]
 transform = Transform( 1, 1.49012e-08, 0, -1.49012e-08, 1, 0, 0, 0, 1, 0, 0, 0 )
 cast_shadow = 0
-mesh = SubResource( 10 )
+mesh = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody3" type="StaticBody" parent="."]
@@ -105,12 +65,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.6636, 5.72991, -8.97736 )
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody3"]
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.38921, 0 )
-shape = SubResource( 8 )
+shape = SubResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="StaticBody3/CollisionShape"]
 transform = Transform( 1, 1.49012e-08, 0, -1.49012e-08, 1, 0, 0, 0, 1, 0, 0, 0 )
 cast_shadow = 0
-mesh = SubResource( 10 )
+mesh = SubResource( 6 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="."]
@@ -118,11 +78,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.517747, 0.353382, 0.490467 
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
 transform = Transform( 0.966034, -0.258414, 0, 0.258414, 0.966034, 0, 0, 0, 1, 0, -0.38921, 0 )
-shape = SubResource( 8 )
+shape = SubResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="StaticBody/CollisionShape"]
 cast_shadow = 0
-mesh = SubResource( 10 )
+mesh = SubResource( 6 )
 material/0 = null
 
 [node name="Tree2" parent="." instance=ExtResource( 5 )]
