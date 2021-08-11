@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://gameplay/player/Player.gd" type="Script" id=1]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+
+[sub_resource type="CapsuleMesh" id=2]
+radius = 0.5
+
+[node name="Player" type="KinematicBody"]
+script = ExtResource( 1 )
+player_view_path = NodePath("Camera")
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, 0 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
+visible = false
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+far = 917.1
