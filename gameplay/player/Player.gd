@@ -30,6 +30,7 @@ var wall_timer := 1.0 # for late wall jumps
 
 
 func _ready():
+	GameController.main_player = self
 	var test := Vector3.UP.cross(Vector3.FORWARD)
 	var test2 := Vector3.FORWARD.cross(Vector3.UP)
 	var node : Node = get_node(player_view_path)

@@ -24,6 +24,10 @@ config/name="NeonTop"
 run/main_scene="res://gameplay/test.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+GameController="*res://gameplay/game_controller.gd"
+
 [display]
 
 window/size/width=1920
