@@ -22,17 +22,17 @@ var gravity_strength := 20
 var cur_gravity := Vector3.ZERO
 var jump_strength := 0.5
 var jumps_left := 0
-var cam_tilt := 0 # when wall running
+var cam_tilt := .0 # when wall running
 var wall_normal := Vector3.ZERO
-var coyote_timer := 0.0 # for delayed jumps
-var jump_timer := 1.0 # for early jumps
-var wall_timer := 1.0 # for late wall jumps
+var coyote_time := .0 # for delayed jumps
+var coyote_active := true # if we're still checking
+var jump_timer := 1.0 # for early jumps | when jump was last pressed
+var wall_timer := 1.0 # for late wall jumps | when wall was last touched
+var wallrun_timer := 1.0 # when we last ran on a wall
 
 
 func _ready():
 	GameController.main_player = self
-	var test := Vector3.UP.cross(Vector3.FORWARD)
-	var test2 := Vector3.FORWARD.cross(Vector3.UP)
 	var node : Node = get_node(player_view_path)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	if node is Spatial:
@@ -49,40 +49,47 @@ func _physics_process(delta):
 		jump_timer = 0
 	if dvel.length() != 0:
 		dvel = dvel.normalized()
+	if velocity.normalized().dot(dvel) < 0:
+		dvel *= 2.5
 	dvel *= player_speed
 	# How much control the player has over movement
 	var control = 0.003 if is_on_floor() or is_on_wall() else 0.4
+	
 	cur_gravity += gravity_dir * gravity_strength * delta
 	cur_gravity *= int(not (is_on_floor() or is_on_ceiling()))
 	
-	coyote_timer += delta
+	coyote_time += delta
 	wall_timer += delta
+	wallrun_timer += delta
 	jump_timer += delta
-	if coyote_timer > 0.15 and jumps_left == max_jumps:
-		jumps_left = max_jumps - 1
-	 
+	if coyote_active and coyote_time > 0.15:
+		if jumps_left == max_jumps:
+			jumps_left = max_jumps - 1
+		coyote_active = false
+	
 	var snap := -up
 	cam_tilt = 0
 	if is_on_floor():
-		coyote_timer = 0
+		coyote_time = 0
+		coyote_active = true
 		jumps_left = max_jumps
 		snap = -get_floor_normal()
 	elif is_on_wall():
-		coyote_timer = 0
-		jumps_left = max_jumps
-		_wall_controls()
+		_wall_behaviour()
+	
+	# for jumping. This is if player pressed jump a little too early
 	if jump_timer < max_jump_timer:
 		if !is_on_floor() and wall_timer < max_wall_timer:
-			wall_timer = 1
+			wall_timer = max_wall_timer
 			velocity += player_speed*wall_normal
 			jumps_left += int(jumps_left == 0)
 		if jumps_left > 0:
-			jump_timer = 1
+			jump_timer = max_jump_timer
 			jumps_left -= 1
 			snap = Vector3.ZERO
 			cur_gravity = -gravity_dir * gravity_strength * jump_strength
 			if !is_on_wall() and dvel and velocity.normalized().dot(dvel.normalized()) < 0.5:
-				velocity = 1.1*dvel
+				velocity = 0.5 * dvel
 	else:
 		velocity = velocity.linear_interpolate(dvel, 1-pow(control, delta))
 	
@@ -92,17 +99,20 @@ func _physics_process(delta):
 	velocity -= cur_gravity
 
 
-func _wall_controls():
+func _wall_behaviour():
 	for i in get_slide_count():
 		var collision := get_slide_collision(i)
 		if abs(collision.normal.dot(-gravity_dir)) < wall_tollerance:
 			wall_normal = collision.normal
-			wall_timer = 0
 			if velocity.length() > min_wall_speed: # start wall run
-				dvel *= 1.4
+				dvel *= 1.3
 				cur_gravity = Vector3.ZERO
 				velocity -= wall_normal
 				cam_tilt = 20 * wall_normal.dot(left)
+				if wallrun_timer > 0.7:
+					jumps_left += 1
+				wallrun_timer = 0
+			wall_timer = 0
 			break
 
 
