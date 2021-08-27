@@ -97,6 +97,7 @@ func _physics_process(delta):
 	velocity = move_and_slide_with_snap(velocity + cur_gravity,snap,up)
 	cur_gravity = velocity.project(gravity_dir)
 	velocity -= cur_gravity
+	check_event_collisions()
 
 
 func _wall_behaviour():
@@ -133,3 +134,9 @@ func process_mouse(change: Vector2):
 		forward = -player_view.transform.basis.z
 		forward = Plane(up,0).project(forward).normalized()
 		left = up.cross(forward).normalized()
+
+func check_event_collisions() -> void:
+	for collision_num in get_slide_count():
+		var collision := get_slide_collision(collision_num)
+		if collision.collider.has_method("_on_player_entered"):
+			collision.collider._on_player_entered(self)
