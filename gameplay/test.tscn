@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://gameplay/player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://gameplay/obstacles/death_collision.gd" type="Script" id=2]
 [ext_resource path="res://neon.tres" type="Shader" id=3]
 [ext_resource path="res://model_assets/tree_000.tscn" type="PackedScene" id=5]
 [ext_resource path="res://model_assets/tree_001.tscn" type="PackedScene" id=6]
@@ -31,6 +32,9 @@ shader_param/Colour = Color( 1, 0, 0.960784, 1 )
 [sub_resource type="CubeMesh" id=6]
 material = SubResource( 5 )
 size = Vector3( 10, 1, 10 )
+
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 132.264, 1, 184.915 )
 
 [node name="Spatial" type="Spatial"]
 
@@ -95,3 +99,10 @@ transform = Transform( 0.696264, 0, 0, 0, 0.696264, 0, 0, 0, 0.696264, 12.2366, 
 
 [node name="StaticBody5" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.464, 9 )
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10.0604, 0 )
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 7 )
