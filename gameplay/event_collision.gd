@@ -8,7 +8,6 @@ func _ready() -> void:
 
 
 func _on_player_entered(player: Player) -> void:
-	print_debug("uwu")
 	pass
 
 
