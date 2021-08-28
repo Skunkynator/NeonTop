@@ -140,3 +140,22 @@ func check_event_collisions() -> void:
 		var collision := get_slide_collision(collision_num)
 		if collision.collider.has_method("_on_player_entered"):
 			collision.collider._on_player_entered(self)
+
+
+func die() -> void:
+	# TODO: implement death animation and freeze frames
+	GameController.reset_level()
+	set_default_parameters()
+	pass
+
+
+func set_default_parameters() -> void:
+	cur_gravity = Vector3.ZERO
+	dvel = Vector3.ZERO
+	velocity = Vector3.ZERO
+	var respawn_trans: Transform = GameController.get_respawn_transform()
+	self.up = respawn_trans.basis.y
+	if player_view:
+		player_view.rotation_degrees = Vector3.ZERO
+		process_mouse(Vector2.ZERO)
+	transform.origin = respawn_trans.origin
