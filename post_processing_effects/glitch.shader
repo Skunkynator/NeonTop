@@ -1,6 +1,7 @@
 shader_type spatial;
 
 uniform float strength;
+render_mode unshaded;
 
 float rand(vec4 v) {
 	float a = v.x*v.y*9.+v.w*2.;
@@ -21,7 +22,7 @@ void fragment() {
 	uv += vec2(0,rand(vec4(uv,TIME,0)))*strength*0.03 * float(gx > (1.-strength));
 	uv += vec2(rand(vec4(uv,TIME,0)),0)*strength*0.03 * float(gy > (1.-strength));
 	
-	EMISSION.rgb = texture(SCREEN_TEXTURE,uv).rgb;
+	ALBEDO.rgb = texture(SCREEN_TEXTURE,uv).rgb;
 }
 
 void vertex() {
