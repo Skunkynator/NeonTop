@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://gameplay/player/Player.gd" type="Script" id=1]
+[ext_resource path="res://post_processing_effects/glitch.shader" type="Shader" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -8,8 +9,15 @@ radius = 0.5
 [sub_resource type="CapsuleMesh" id=2]
 radius = 0.5
 
-[sub_resource type="Animation" id=3]
-resource_name = "death"
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 2 )
+shader_param/strength = 0.3
+
+[sub_resource type="QuadMesh" id=9]
+material = SubResource( 8 )
+size = Vector2( 2, 2 )
+
+[sub_resource type="Animation" id=6]
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -28,5 +36,9 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 far = 917.1
 
+[node name="MeshInstance" type="MeshInstance" parent="Camera"]
+mesh = SubResource( 9 )
+material/0 = null
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/death = SubResource( 3 )
+anims/death = SubResource( 6 )
