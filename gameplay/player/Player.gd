@@ -29,6 +29,7 @@ var coyote_active := true # if we're still checking
 var jump_timer := 1.0 # for early jumps | when jump was last pressed
 var wall_timer := 1.0 # for late wall jumps | when wall was last touched
 var wallrun_timer := 1.0 # when we last ran on a wall
+var frozen := false
 
 
 func _ready():
@@ -40,6 +41,8 @@ func _ready():
 
 
 func _physics_process(delta):
+	if frozen:
+		return
 	# Compute desired direction
 	dvel = forward * int(Input.is_action_pressed("gp_forward"))
 	dvel -= forward * int(Input.is_action_pressed("gp_back"))
@@ -143,7 +146,11 @@ func check_event_collisions() -> void:
 
 
 func die() -> void:
-	# TODO: implement death animation and freeze frames
+	$AnimationPlayer.play("death")
+	var animation_len = $AnimationPlayer.get_current_animation_length()
+	frozen = true
+	yield(get_tree().create_timer(animation_len / 2), "timeout")
+	frozen = false
 	GameController.reset_level()
 	set_default_parameters()
 	pass
