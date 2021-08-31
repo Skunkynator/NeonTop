@@ -5,10 +5,8 @@ var main_player : Player
 
 
 func reset_level() -> void:
-	# TODO call current level controller to reset itself
-	pass
+	LevelController.reset_level()
 
 
 func get_respawn_transform() -> Transform:
-	# TODO get data from level controller
-	return Transform()
+	return LevelController.get_reset_transform()
