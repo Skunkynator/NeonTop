@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://gameplay/player/Player.gd"
+}, {
+"base": "Object",
+"class": "_ExtendedFunctions",
+"language": "GDScript",
+"path": "res://extended_functions.gd"
 } ]
 _global_script_class_icons={
 "DeathCollision": "",
 "EventCollision": "",
-"Player": ""
+"Player": "",
+"_ExtendedFunctions": ""
 }
 
 [application]
