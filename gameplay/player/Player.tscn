@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://gameplay/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://post_processing_effects/glitch.shader" type="Shader" id=2]
 [ext_resource path="res://gameplay/player/glitch_controller.gd" type="Script" id=3]
+[ext_resource path="res://post_processing_effects/skybox.gdshader" type="Shader" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -11,6 +12,7 @@ radius = 0.5
 radius = 0.5
 
 [sub_resource type="ShaderMaterial" id=3]
+render_priority = -1
 shader = ExtResource( 2 )
 shader_param/strength = 0.0
 
@@ -18,7 +20,14 @@ shader_param/strength = 0.0
 material = SubResource( 3 )
 size = Vector2( 2, 2 )
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 4 )
+
+[sub_resource type="QuadMesh" id=6]
+material = SubResource( 5 )
+size = Vector2( 2, 2 )
+
+[sub_resource type="Animation" id=7]
 step = 0.05
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Camera/MeshInstance:strength")
@@ -54,5 +63,10 @@ mesh = SubResource( 4 )
 material/0 = null
 script = ExtResource( 3 )
 
+[node name="Skybox" type="MeshInstance" parent="Camera"]
+extra_cull_margin = 16384.0
+mesh = SubResource( 6 )
+material/0 = null
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/death = SubResource( 5 )
+anims/death = SubResource( 7 )
