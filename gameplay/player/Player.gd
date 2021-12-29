@@ -40,7 +40,7 @@ func _ready():
 		player_view = node
 
 
-func _physics_process(delta):
+func _physics_process(delta : float) -> void:
 	if frozen:
 		return
 	# Compute desired direction
@@ -56,7 +56,7 @@ func _physics_process(delta):
 		dvel *= 2.5
 	dvel *= player_speed
 	# How much control the player has over movement
-	var control = 0.003 if is_on_floor() or is_on_wall() else 0.4
+	var control := 0.003 if is_on_floor() or is_on_wall() else 0.4
 	
 	cur_gravity += gravity_dir * gravity_strength * delta
 	cur_gravity *= int(not (is_on_floor() or is_on_ceiling()))
@@ -146,11 +146,13 @@ func check_event_collisions() -> void:
 
 
 func die() -> void:
-	$AnimationPlayer.play("death")
-	var animation_len = $AnimationPlayer.get_current_animation_length()
-	frozen = true
-	yield(get_tree().create_timer(animation_len / 2), "timeout")
-	frozen = false
+	var animationPlayer: AnimationPlayer = $AnimationPlayer as AnimationPlayer
+	if animationPlayer:
+		animationPlayer.play("death")
+		var animation_len := animationPlayer.get_current_animation_length()
+		frozen = true
+		yield(get_tree().create_timer(animation_len / 2), "timeout")
+		frozen = false
 	GameController.reset_level()
 	set_default_parameters()
 	pass

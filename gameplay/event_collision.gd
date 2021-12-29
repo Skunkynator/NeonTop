@@ -11,6 +11,7 @@ func _on_player_entered(player: Player) -> void:
 	pass
 
 
-func _on_collision_body_entered(body):
-	if body is Player:
-		_on_player_entered(body)
+func _on_collision_body_entered(body : Player):
+	if not body:
+		return
+	_on_player_entered(body)

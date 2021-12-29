@@ -10,9 +10,9 @@ func set_strength(new_strength : float):
 
 
 func _ready() -> void:
-	if not mesh.surface_get_material(0) is ShaderMaterial:
+	material = mesh.surface_get_material(0) as ShaderMaterial
+	if not material:
 		free()
-	material = mesh.surface_get_material(0)
 	var cur_shader : Shader
 	cur_shader = material.shader
 	if not cur_shader.has_param("strength"):
