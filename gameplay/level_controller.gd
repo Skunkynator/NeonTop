@@ -21,6 +21,8 @@ func load_level(path: String) -> void:
 	_ExtendedFunctions.delete_children(self)
 	add_child(level)
 	start_transform = level.get_start_transform()
+	restart_level()
+	GameController.main_player.set_default_parameters()
 
 
 func reset_level() -> void:
