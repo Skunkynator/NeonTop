@@ -1,0 +1,75 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://gameplay/level.gd" type="Script" id=1]
+[ext_resource path="res://neon.tres" type="Shader" id=2]
+[ext_resource path="res://gameplay/obstacles/death_collision.gd" type="Script" id=3]
+
+[sub_resource type="BoxShape" id=10]
+extents = Vector3( 132.264, 1, 184.915 )
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 2 )
+shader_param/Offset = Vector3( 0, 1, 0 )
+shader_param/Scale = 2.0
+shader_param/Colour = Color( 0.117647, 0.67451, 0, 1 )
+
+[sub_resource type="CubeMesh" id=8]
+material = SubResource( 2 )
+size = Vector3( 100, 2, 100 )
+
+[sub_resource type="BoxShape" id=9]
+extents = Vector3( 50, 1, 50 )
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 2 )
+shader_param/Offset = Vector3( 0, 0.5, 0 )
+shader_param/Scale = 1.0
+shader_param/Colour = Color( 1, 0, 0.960784, 1 )
+
+[sub_resource type="CubeMesh" id=6]
+material = SubResource( 5 )
+size = Vector3( 10, 1, 10 )
+
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 5, 0.5, 5 )
+
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 1 )
+start_point_path = NodePath("SpawnPoint")
+
+[node name="SpawnPoint" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.03127, 2.41237, -24.7404 )
+
+[node name="DeathAreas" type="Spatial" parent="."]
+
+[node name="Area" type="Area" parent="DeathAreas"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10.0604, 0 )
+script = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="DeathAreas/Area"]
+shape = SubResource( 10 )
+
+[node name="LevelGeometry" type="Spatial" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="LevelGeometry"]
+mesh = SubResource( 8 )
+skeleton = NodePath("StaticBody2/CollisionShape")
+material/0 = null
+
+[node name="StaticBody2" type="StaticBody" parent="LevelGeometry/MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="LevelGeometry/MeshInstance/StaticBody2"]
+shape = SubResource( 9 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="LevelGeometry"]
+transform = Transform( -2.88102e-08, -1, 0, 1, -2.88102e-08, 0, 0, 0, 1, 18, 5, -8.977 )
+cast_shadow = 0
+mesh = SubResource( 6 )
+skeleton = NodePath("StaticBody3/CollisionShape")
+material/0 = null
+
+[node name="StaticBody3" type="StaticBody" parent="LevelGeometry/MeshInstance2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="LevelGeometry/MeshInstance2/StaticBody3"]
+transform = Transform( 1, -1.49012e-08, 0, 1.49012e-08, 1, 0, 0, 0, 1, 0, 0, 0 )
+shape = SubResource( 7 )
