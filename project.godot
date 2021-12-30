@@ -32,7 +32,7 @@ _global_script_classes=[ {
 "base": "KinematicBody",
 "class": "Player",
 "language": "GDScript",
-"path": "res://gameplay/player/Player.gd"
+"path": "res://gameplay/player/player.gd"
 }, {
 "base": "Object",
 "class": "_ExtendedFunctions",

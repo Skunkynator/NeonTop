@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://gameplay/player/Player.gd" type="Script" id=1]
-[ext_resource path="res://post_processing_effects/glitch.shader" type="Shader" id=2]
-[ext_resource path="res://gameplay/player/glitch_controller.gd" type="Script" id=3]
+[ext_resource path="res://gameplay/player/player.gd" type="Script" id=1]
+[ext_resource path="res://gameplay/player/glitch_controller.gd" type="Script" id=2]
+[ext_resource path="res://post_processing_effects/glitch.shader" type="Shader" id=3]
 [ext_resource path="res://post_processing_effects/skybox.gdshader" type="Shader" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
@@ -13,7 +13,7 @@ radius = 0.5
 
 [sub_resource type="ShaderMaterial" id=3]
 render_priority = -1
-shader = ExtResource( 2 )
+shader = ExtResource( 3 )
 shader_param/strength = 0.0
 
 [sub_resource type="QuadMesh" id=4]
@@ -61,7 +61,7 @@ far = 917.1
 extra_cull_margin = 16384.0
 mesh = SubResource( 4 )
 material/0 = null
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 
 [node name="Skybox" type="MeshInstance" parent="Camera"]
 extra_cull_margin = 16384.0
