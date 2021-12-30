@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://gameplay/player/player.gd" type="Script" id=1]
+[ext_resource path="res://gameplay/player/glitch_controller.gd" type="Script" id=2]
+[ext_resource path="res://post_processing_effects/glitch.shader" type="Shader" id=3]
+[ext_resource path="res://post_processing_effects/skybox.gdshader" type="Shader" id=4]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+
+[sub_resource type="CapsuleMesh" id=2]
+radius = 0.5
+
+[sub_resource type="ShaderMaterial" id=3]
+render_priority = -1
+shader = ExtResource( 3 )
+shader_param/strength = 0.0
+
+[sub_resource type="QuadMesh" id=4]
+material = SubResource( 3 )
+size = Vector2( 2, 2 )
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 4 )
+
+[sub_resource type="QuadMesh" id=6]
+material = SubResource( 5 )
+size = Vector2( 2, 2 )
+
+[sub_resource type="Animation" id=7]
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Camera/MeshInstance:strength")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0.00615054, -0.25, 0, 0.147584, 0.0800417, 0.633846, -0.0821926, -0.206423, 0.0604684, 0.176934, 1.00035, -0.0814606, -0.00842541, 0.158364, -0.0463399, 0.00615054, -0.537647, 0.421272, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.35, 0.5, 1 )
+}
+
+[node name="Player" type="KinematicBody"]
+script = ExtResource( 1 )
+player_view_path = NodePath("Camera")
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, 0 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
+visible = false
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+far = 917.1
+
+[node name="MeshInstance" type="MeshInstance" parent="Camera"]
+extra_cull_margin = 16384.0
+mesh = SubResource( 4 )
+material/0 = null
+script = ExtResource( 2 )
+
+[node name="Skybox" type="MeshInstance" parent="Camera"]
+extra_cull_margin = 16384.0
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/death = SubResource( 7 )
