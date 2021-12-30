@@ -51,7 +51,7 @@ _global_script_class_icons={
 [application]
 
 config/name="NeonTop"
-run/main_scene="res://gameplay/test.tscn"
+run/main_scene="res://loading.tscn"
 config/icon="res://icon.png"
 
 [autoload]
