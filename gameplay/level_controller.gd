@@ -9,14 +9,16 @@ var reset_transform : Transform
 
 
 func load_level(path: String) -> void:
-	var new_level : PackedScene = load(path)
+	var new_level := load(path) as PackedScene
 	if not new_level:
 		return
-	var root_type := new_level.get_state().get_node_type(0)
-	if root_type != "Level":
+	var instance := new_level.instance()
+	var level := instance as Level
+	if not level:
+		if instance:
+			instance.free()
 		return
 	_ExtendedFunctions.delete_children(self)
-	var level : Level = new_level.instance() as Level
 	add_child(level)
 	start_transform = level.get_start_transform()
 
@@ -27,7 +29,7 @@ func reset_level() -> void:
 
 func restart_level() -> void:
 	object_timer = 0
-	reset_timer = object_timer
+	reset_timer = 0
 	reset_transform = start_transform
 
 
