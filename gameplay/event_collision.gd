@@ -7,7 +7,7 @@ func _ready() -> void:
 		connect("body_entered",self,"_on_collision_body_entered")
 
 
-func _on_player_entered(player: Player) -> void:
+func _on_player_entered(_player: Player) -> void:
 	pass
 
 
