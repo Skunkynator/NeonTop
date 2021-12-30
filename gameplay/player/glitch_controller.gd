@@ -6,7 +6,8 @@ var material : ShaderMaterial
 
 
 func set_strength(new_strength : float):
-	material.set_shader_param("strength",new_strength)
+	if material:
+		material.set_shader_param("strength",new_strength)
 
 
 func _ready() -> void:
