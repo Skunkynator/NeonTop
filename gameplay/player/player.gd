@@ -30,6 +30,7 @@ var jump_timer := 1.0 # for early jumps | when jump was last pressed
 var wall_timer := 1.0 # for late wall jumps | when wall was last touched
 var wallrun_timer := 1.0 # when we last ran on a wall
 var frozen := false
+var mouse_freeze := false
 
 
 func _ready():
@@ -127,6 +128,8 @@ func _input(event):
 # x mouse change -> Y camera rotation
 # y mouse change -> X camera rotation
 func process_mouse(change: Vector2):
+	if mouse_freeze:
+		return
 	change = change * mouse_sensitivity
 	if player_view:
 		var view := player_view.rotation_degrees
@@ -137,6 +140,17 @@ func process_mouse(change: Vector2):
 		forward = -player_view.transform.basis.z
 		forward = Plane(up,0).project(forward).normalized()
 		left = up.cross(forward).normalized()
+
+
+func release_mouse():
+	mouse_freeze = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func capture_mouse():
+	mouse_freeze = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 
 func check_event_collisions() -> void:
 	for collision_num in get_slide_count():
