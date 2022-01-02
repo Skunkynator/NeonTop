@@ -100,6 +100,10 @@ gp_jump={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_16="UI_Layer"
+
 [physics]
 
 common/enable_pause_aware_picking=true
