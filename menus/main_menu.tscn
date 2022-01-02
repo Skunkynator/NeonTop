@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://gameplay/level.gd" type="Script" id=1]
 [ext_resource path="res://neon.tres" type="Shader" id=2]
 [ext_resource path="res://gameplay/obstacles/death_collision.gd" type="Script" id=3]
+[ext_resource path="res://menus/gui3d_controller.gd" type="Script" id=4]
+[ext_resource path="res://menus/pause_menu.tscn" type="PackedScene" id=5]
 
 [sub_resource type="BoxShape" id=10]
 extents = Vector3( 132.264, 1, 184.915 )
@@ -32,6 +34,16 @@ size = Vector3( 10, 1, 10 )
 
 [sub_resource type="BoxShape" id=7]
 extents = Vector3( 5, 0.5, 5 )
+
+[sub_resource type="BoxShape" id=11]
+extents = Vector3( 0.489, 0.481, 0.001 )
+
+[sub_resource type="QuadMesh" id=12]
+
+[sub_resource type="SpatialMaterial" id=13]
+flags_transparent = true
+flags_unshaded = true
+params_cull_mode = 2
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
@@ -73,3 +85,28 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="LevelGeometry/MeshInstance2/StaticBody3"]
 transform = Transform( 1, -1.49012e-08, 0, 1.49012e-08, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 7 )
+
+[node name="Gui" type="Spatial" parent="."]
+
+[node name="Spatial" type="Spatial" parent="Gui"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.80296, 0 )
+
+[node name="Viewport" type="Viewport" parent="Gui/Spatial"]
+size = Vector2( 1000, 1000 )
+transparent_bg = true
+usage = 0
+render_target_v_flip = true
+
+[node name="Control" parent="Gui/Spatial/Viewport" instance=ExtResource( 5 )]
+
+[node name="Area" type="Area" parent="Gui/Spatial"]
+collision_layer = 0
+script = ExtResource( 4 )
+viewport_path = NodePath("../Viewport")
+
+[node name="CollisionShape" type="CollisionShape" parent="Gui/Spatial/Area"]
+shape = SubResource( 11 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Gui/Spatial/Area"]
+mesh = SubResource( 12 )
+material/0 = SubResource( 13 )
