@@ -2,7 +2,8 @@ extends KinematicBody
 class_name Player
 
 
-export(NodePath) var player_view_path
+export(int, LAYERS_3D_PHYSICS) var ui_layer : int
+export var player_view_path : NodePath
 export var player_speed := 15
 export var max_jumps := 2
 export var wall_tollerance := 0.2 # for wall running
@@ -33,12 +34,11 @@ var frozen := false
 var mouse_freeze := false
 
 
-func _ready():
+func _ready() -> void:
 	GameController.main_player = self
-	var node : Node = get_node(player_view_path)
+	var node := get_node(player_view_path) as Spatial
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	if node is Spatial:
-		player_view = node
+	player_view = node
 
 
 func _physics_process(delta : float) -> void:
@@ -121,13 +121,15 @@ func _wall_behaviour():
 			break
 
 
-func _input(event):
+func _input(event : InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		process_mouse(event.relative)
+		process_mouse((event as InputEventMouseMotion).relative)
+	if event is InputEventMouse:
+		process_3d_ui(event as InputEventMouse)
 
 # x mouse change -> Y camera rotation
 # y mouse change -> X camera rotation
-func process_mouse(change: Vector2):
+func process_mouse(change: Vector2) -> void:
 	if mouse_freeze:
 		return
 	change = change * mouse_sensitivity
@@ -140,6 +142,17 @@ func process_mouse(change: Vector2):
 		forward = -player_view.transform.basis.z
 		forward = Plane(up,0).project(forward).normalized()
 		left = up.cross(forward).normalized()
+
+
+func process_3d_ui(mouse_event : InputEventMouse) -> void:
+	var camera := get_viewport().get_camera()
+	var global_position := mouse_event.global_position
+	var from := camera.project_ray_origin(global_position)
+	var to := from + camera.project_ray_normal(global_position) * 10
+	var intersect := get_world().direct_space_state.intersect_ray(from, to, [], ui_layer,false,true)
+	if intersect.size() > 0:
+		var ui_area := intersect.collider as Gui3dController
+		ui_area.handle_input(mouse_event,intersect.position as Vector3)
 
 
 func release_mouse():
@@ -169,7 +182,6 @@ func die() -> void:
 		frozen = false
 	GameController.reset_level()
 	set_default_parameters()
-	pass
 
 
 func set_default_parameters() -> void:
