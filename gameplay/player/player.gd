@@ -124,6 +124,14 @@ func _wall_behaviour():
 			break
 
 
+func bounce(towards : Vector3, force : float) -> void:
+	var up_momentum := (towards*force).project(gravity_dir)
+	cur_gravity += up_momentum
+	velocity += towards*force - up_momentum
+	if jumps_left == 0:
+		jumps_left += 1
+
+
 func _input(event : InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		process_mouse((event as InputEventMouseMotion).relative)
