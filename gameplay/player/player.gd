@@ -59,9 +59,6 @@ func _physics_process(delta : float) -> void:
 	# How much control the player has over movement
 	var control := 0.003 if is_on_floor() or is_on_wall() else 0.4
 	
-	cur_gravity += gravity_dir * gravity_strength * delta
-	cur_gravity *= int(not (is_on_floor() or is_on_ceiling()))
-	
 	coyote_time += delta
 	wall_timer += delta
 	wallrun_timer += delta
@@ -80,6 +77,12 @@ func _physics_process(delta : float) -> void:
 		snap = -get_floor_normal()
 	elif is_on_wall():
 		_wall_behaviour()
+	
+	cur_gravity += gravity_dir * gravity_strength * delta
+	if (is_on_floor() and cur_gravity.dot(up) < 0 or is_on_ceiling() and cur_gravity.dot(up) > 0):
+		cur_gravity *= 0
+	else:
+		snap = Vector3.ZERO
 	
 	# for jumping. This is if player pressed jump a little too early
 	if jump_timer < max_jump_timer:
@@ -129,7 +132,7 @@ func _input(event : InputEvent) -> void:
 
 # x mouse change -> Y camera rotation
 # y mouse change -> X camera rotation
-func process_mouse(change: Vector2) -> void:
+func process_mouse(change : Vector2) -> void:
 	if mouse_freeze:
 		return
 	change = change * mouse_sensitivity
