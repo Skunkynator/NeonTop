@@ -11,6 +11,7 @@ export var min_wall_speed := 7 # min speed needed for wall run
 export var max_coyote_timer := 0.15
 export var max_jump_timer := 0.1
 export var max_wall_timer := 0.2
+var current_event_collissions := []
 var player_view : Spatial
 var mouse_sensitivity := 0.2
 var forward := Vector3.FORWARD
@@ -177,10 +178,24 @@ func capture_mouse():
 
 
 func check_event_collisions() -> void:
+	var ending_collissions := current_event_collissions
+	current_event_collissions = []
 	for collision_num in get_slide_count():
 		var collision := get_slide_collision(collision_num)
-		if collision.collider.has_method("_on_player_entered"):
-			collision.collider._on_player_entered(self)
+		if collision.collider.has_method("_on_player_entered") and \
+				collision.collider.has_method("_on_player_exited") and \
+				collision.collider.has_method("_on_player_inside"):
+			var collision_index : int
+			collision_index = ending_collissions.find(collision.collider)
+			if collision_index != -1:
+				ending_collissions.remove(collision_index)
+				collision.collider._on_player_inside(self)
+			else:
+				collision.collider._on_player_entered(self)
+			current_event_collissions.append(collision.collider)
+	for collider in ending_collissions:
+		if collider.has_method("_on_player_exited"):
+			collider._on_player_exited(self)
 
 
 func die() -> void:
