@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "EventCollision",
+"class": "BounceCollision",
+"language": "GDScript",
+"path": "res://gameplay/entities/bounce_pad/bounce.gd"
+}, {
+"base": "EventCollision",
 "class": "DeathCollision",
 "language": "GDScript",
 "path": "res://gameplay/entities/death_collision.gd"
@@ -45,6 +50,7 @@ _global_script_classes=[ {
 "path": "res://extended_functions.gd"
 } ]
 _global_script_class_icons={
+"BounceCollision": "",
 "DeathCollision": "",
 "EventCollision": "",
 "GitAPI": "",
