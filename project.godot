@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "EventCollision",
 "class": "DeathCollision",
 "language": "GDScript",
-"path": "res://gameplay/obstacles/death_collision.gd"
+"path": "res://gameplay/entities/death_collision.gd"
 }, {
 "base": "CollisionObject",
 "class": "EventCollision",

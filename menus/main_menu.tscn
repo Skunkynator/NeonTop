@@ -2,7 +2,7 @@
 
 [ext_resource path="res://gameplay/level.gd" type="Script" id=1]
 [ext_resource path="res://neon.tres" type="Shader" id=2]
-[ext_resource path="res://gameplay/obstacles/death_collision.gd" type="Script" id=3]
+[ext_resource path="res://gameplay/entities/death_collision.gd" type="Script" id=3]
 [ext_resource path="res://menus/gui3d_controller.gd" type="Script" id=4]
 [ext_resource path="res://menus/pause_menu.tscn" type="PackedScene" id=5]
 
