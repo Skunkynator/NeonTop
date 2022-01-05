@@ -12,6 +12,7 @@ export var max_coyote_timer := 0.15
 export var max_jump_timer := 0.1
 export var max_wall_timer := 0.2
 var current_event_collissions := []
+var pause_menu : Control
 var player_view : Spatial
 var mouse_sensitivity := 0.2
 var forward := Vector3.FORWARD
@@ -40,6 +41,7 @@ func _ready() -> void:
 	var node := get_node(player_view_path) as Spatial
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	player_view = node
+	pause_menu = $PauseMenu as Control
 
 
 func _physics_process(delta : float) -> void:
@@ -133,7 +135,12 @@ func bounce(towards : Vector3, force : float) -> void:
 		jumps_left += 1
 
 
-func _input(event : InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	if mouse_freeze:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		pause()
+		get_tree().set_input_as_handled()
 	if event is InputEventMouseMotion:
 		process_mouse((event as InputEventMouseMotion).relative)
 	if event is InputEventMouse:
@@ -220,3 +227,18 @@ func set_default_parameters() -> void:
 		player_view.rotation_degrees = Vector3.ZERO
 		process_mouse(Vector2.ZERO)
 	transform.origin = respawn_trans.origin
+
+
+func pause() -> void:
+	release_mouse()
+	frozen = true
+	if pause_menu:
+		pause_menu.show()
+	GameController.pause_game()
+
+
+func unpause() -> void:
+	capture_mouse()
+	frozen = false
+	if pause_menu:
+		pause_menu.hide()
