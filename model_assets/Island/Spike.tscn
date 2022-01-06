@@ -7,6 +7,8 @@
 shader = ExtResource( 1 )
 shader_param/colour = Color( 0.666667, 0.329412, 0, 1 )
 shader_param/inv_glow_strength = 8.0
+shader_param/vertex_displacement = false
+shader_param/strength = 0.3
 shader_param/dist_map = ExtResource( 2 )
 
 [sub_resource type="ArrayMesh" id=2]
