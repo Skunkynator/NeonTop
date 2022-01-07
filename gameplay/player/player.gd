@@ -11,6 +11,7 @@ export var min_wall_speed := 7 # min speed needed for wall run
 export var max_coyote_timer := 0.15
 export var max_jump_timer := 0.1
 export var max_wall_timer := 0.2
+export(float, 0, 0.9) var rotation_smoothness := 0.6
 var current_event_collissions := []
 var pause_menu : Control
 var player_view : Spatial
@@ -20,7 +21,6 @@ var up := Vector3.UP
 var left := Vector3.LEFT
 var velocity := Vector3.ZERO
 var dvel := Vector3.ZERO # desired velocity
-var gravity_dir := -up
 var gravity_strength := 20
 var cur_gravity := Vector3.ZERO
 var jump_strength := 0.5
@@ -47,6 +47,9 @@ func _ready() -> void:
 func _physics_process(delta : float) -> void:
 	if frozen:
 		return
+	transform.basis.y = up.linear_interpolate(transform.basis.y, 1-pow(rotation_smoothness, delta)).normalized()
+	transform.basis.x = Plane(transform.basis.y,0).project(transform.basis.x).normalized()
+	transform.basis.z = transform.basis.x.cross(transform.basis.y).normalized()
 	# Compute desired direction
 	dvel = forward * int(Input.is_action_pressed("gp_forward"))
 	dvel -= forward * int(Input.is_action_pressed("gp_back"))
@@ -81,7 +84,7 @@ func _physics_process(delta : float) -> void:
 	elif is_on_wall():
 		_wall_behaviour()
 	
-	cur_gravity += gravity_dir * gravity_strength * delta
+	cur_gravity += -up * gravity_strength * delta
 	if (is_on_floor() and cur_gravity.dot(up) < 0 or is_on_ceiling() and cur_gravity.dot(up) > 0):
 		cur_gravity *= 0
 	else:
@@ -97,7 +100,7 @@ func _physics_process(delta : float) -> void:
 			jump_timer = max_jump_timer
 			jumps_left -= 1
 			snap = Vector3.ZERO
-			cur_gravity = -gravity_dir * gravity_strength * jump_strength
+			cur_gravity = --up * gravity_strength * jump_strength
 			if !is_on_wall() and dvel and velocity.normalized().dot(dvel.normalized()) < 0.5:
 				velocity = 0.5 * dvel
 	else:
@@ -105,7 +108,7 @@ func _physics_process(delta : float) -> void:
 	
 	player_view.rotation_degrees.z = lerp(player_view.rotation_degrees.z, cam_tilt, 1-pow(0.1,delta))
 	velocity = move_and_slide_with_snap(velocity + cur_gravity,snap,up)
-	cur_gravity = velocity.project(gravity_dir)
+	cur_gravity = velocity.project(-up)
 	velocity -= cur_gravity
 	check_event_collisions()
 
@@ -113,7 +116,7 @@ func _physics_process(delta : float) -> void:
 func _wall_behaviour():
 	for i in get_slide_count():
 		var collision := get_slide_collision(i)
-		if abs(collision.normal.dot(-gravity_dir)) < wall_tollerance:
+		if abs(collision.normal.dot(up)) < wall_tollerance:
 			wall_normal = collision.normal
 			if velocity.length() > min_wall_speed: # start wall run
 				dvel *= 1.3
@@ -128,7 +131,7 @@ func _wall_behaviour():
 
 
 func bounce(towards : Vector3, force : float) -> void:
-	var up_momentum := (towards*force).project(gravity_dir)
+	var up_momentum := (towards*force).project(-up)
 	cur_gravity += up_momentum
 	velocity += towards*force - up_momentum
 	if jumps_left == 0:
@@ -158,7 +161,7 @@ func process_mouse(change : Vector2) -> void:
 		view.y = view.y - change.x
 		player_view.rotation_degrees = view
 		player_view.orthonormalize()
-		forward = -player_view.transform.basis.z
+		forward = -player_view.global_transform.basis.z
 		forward = Plane(up,0).project(forward).normalized()
 		left = up.cross(forward).normalized()
 
