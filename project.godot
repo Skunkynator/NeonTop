@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://gameplay/event_collision.gd"
 }, {
+"base": "Spatial",
+"class": "FloatingEntity",
+"language": "GDScript",
+"path": "res://gameplay/entities/floating_entity/floating_entity.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
@@ -53,6 +58,7 @@ _global_script_class_icons={
 "BounceCollision": "",
 "DeathCollision": "",
 "EventCollision": "",
+"FloatingEntity": "",
 "GitAPI": "",
 "Gui3dController": "",
 "Level": "",
@@ -123,4 +129,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"
