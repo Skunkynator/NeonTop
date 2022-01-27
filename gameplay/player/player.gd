@@ -14,6 +14,7 @@ export var max_wall_timer := 0.2
 export(float, 0, 0.9) var rotation_smoothness := 0.6
 var current_event_collissions := []
 var pause_menu : Control
+var cross_hair : Control
 var player_view : Spatial
 var mouse_sensitivity := 0.2
 var forward := Vector3.FORWARD
@@ -42,6 +43,9 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	player_view = node
 	pause_menu = $PauseMenu as Control
+	cross_hair = get_node_or_null("CrossHair") as Control
+	if cross_hair:
+		cross_hair.visible = false
 
 
 func _physics_process(delta : float) -> void:
@@ -172,9 +176,13 @@ func process_3d_ui(mouse_event : InputEventMouse) -> void:
 	var from := camera.project_ray_origin(global_position)
 	var to := from + camera.project_ray_normal(global_position) * 10
 	var intersect := get_world().direct_space_state.intersect_ray(from, to, [], ui_layer,false,true)
-	if intersect.size() > 0:
+	var did_intersect := intersect.size() > 0
+	if cross_hair:
+		cross_hair.visible = did_intersect
+	if did_intersect:
 		var ui_area := intersect.collider as Gui3dController
-		ui_area.handle_input(mouse_event,intersect.position as Vector3)
+		if ui_area: 
+			ui_area.handle_input(mouse_event,intersect.position as Vector3)
 
 
 func release_mouse():
@@ -237,6 +245,8 @@ func pause() -> void:
 	frozen = true
 	if pause_menu:
 		pause_menu.show()
+		if cross_hair:
+			cross_hair.hide()
 	GameController.pause_game()
 
 
