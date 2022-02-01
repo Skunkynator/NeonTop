@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://gameplay/entities/bounce_pad/bounce_pad.gdshader" type="Shader" id=1]
+[ext_resource path="res://gameplay/entities/bounce_pad/bounce.gd" type="Script" id=2]
+
+[sub_resource type="CylinderShape" id=1]
+height = 0.2
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 1 )
+shader_param/colour = Color( 0, 0.768627, 1, 1 )
+shader_param/animation_speed = 4.0
+shader_param/ring_density = 17.0
+shader_param/thickness_change = 3.0
+shader_param/thickness_change_speed = 5.0
+shader_param/squareness = 2.0
+shader_param/size = Vector2( 1, 1 )
+
+[sub_resource type="CylinderMesh" id=4]
+material = SubResource( 3 )
+height = 0.2
+
+[node name="Area" type="Area"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 4 )
+material/0 = null

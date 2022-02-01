@@ -1,14 +1,14 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://gameplay/player/player.gd" type="Script" id=1]
 [ext_resource path="res://gameplay/player/glitch_controller.gd" type="Script" id=2]
 [ext_resource path="res://post_processing_effects/glitch.shader" type="Shader" id=3]
 [ext_resource path="res://post_processing_effects/skybox.gdshader" type="Shader" id=4]
+[ext_resource path="res://menus/pause_menu.tscn" type="PackedScene" id=5]
+[ext_resource path="res://gameplay/player/crosshair.png" type="Texture" id=6]
+[ext_resource path="res://gameplay/player/crosshair_box.png" type="Texture" id=7]
 
 [sub_resource type="CapsuleShape" id=1]
-radius = 0.5
-
-[sub_resource type="CapsuleMesh" id=2]
 radius = 0.5
 
 [sub_resource type="ShaderMaterial" id=3]
@@ -42,16 +42,12 @@ tracks/0/keys = {
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
+ui_layer = 32768
 player_view_path = NodePath("Camera")
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, 0 )
 shape = SubResource( 1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
-visible = false
-mesh = SubResource( 2 )
-material/0 = null
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
@@ -70,3 +66,38 @@ material/0 = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/death = SubResource( 7 )
+
+[node name="PauseMenu" parent="." instance=ExtResource( 5 )]
+visible = false
+
+[node name="CrossHair" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -32.0
+margin_top = -32.0
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="CrossHair"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -16.0
+margin_top = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+rect_rotation = 45.0
+rect_pivot_offset = Vector2( 16, 16 )
+texture = ExtResource( 7 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

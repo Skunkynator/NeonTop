@@ -10,19 +10,34 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "EventCollision",
+"class": "BounceCollision",
+"language": "GDScript",
+"path": "res://gameplay/entities/bounce_pad/bounce.gd"
+}, {
+"base": "EventCollision",
 "class": "DeathCollision",
 "language": "GDScript",
-"path": "res://gameplay/obstacles/death_collision.gd"
+"path": "res://gameplay/entities/death_collision.gd"
 }, {
 "base": "CollisionObject",
 "class": "EventCollision",
 "language": "GDScript",
 "path": "res://gameplay/event_collision.gd"
 }, {
+"base": "Spatial",
+"class": "FloatingEntity",
+"language": "GDScript",
+"path": "res://gameplay/entities/floating_entity/floating_entity.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
+}, {
+"base": "Area",
+"class": "Gui3dController",
+"language": "GDScript",
+"path": "res://menus/gui3d_controller.gd"
 }, {
 "base": "Node",
 "class": "Level",
@@ -40,9 +55,12 @@ _global_script_classes=[ {
 "path": "res://extended_functions.gd"
 } ]
 _global_script_class_icons={
+"BounceCollision": "",
 "DeathCollision": "",
 "EventCollision": "",
+"FloatingEntity": "",
 "GitAPI": "",
+"Gui3dController": "",
 "Level": "",
 "Player": "",
 "_ExtendedFunctions": ""
@@ -100,6 +118,10 @@ gp_jump={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_16="UI_Layer"
+
 [physics]
 
 common/enable_pause_aware_picking=true
@@ -107,4 +129,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"

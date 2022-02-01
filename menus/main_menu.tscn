@@ -1,44 +1,35 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://gameplay/level.gd" type="Script" id=1]
-[ext_resource path="res://neon.tres" type="Shader" id=2]
-[ext_resource path="res://gameplay/obstacles/death_collision.gd" type="Script" id=3]
+[ext_resource path="res://gameplay/level_assets/big_tree_0/varient_00.tscn" type="PackedScene" id=2]
+[ext_resource path="res://gameplay/entities/death_collision.gd" type="Script" id=3]
+[ext_resource path="res://menus/gui3d_controller.gd" type="Script" id=4]
+[ext_resource path="res://menus/main.theme" type="Theme" id=5]
+[ext_resource path="res://menus/save_file.tscn" type="PackedScene" id=6]
 
 [sub_resource type="BoxShape" id=10]
 extents = Vector3( 132.264, 1, 184.915 )
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = ExtResource( 2 )
-shader_param/Offset = Vector3( 0, 1, 0 )
-shader_param/Scale = 2.0
-shader_param/Colour = Color( 0.117647, 0.67451, 0, 1 )
+[sub_resource type="BoxShape" id=11]
+extents = Vector3( 6, 3, 0.001 )
 
-[sub_resource type="CubeMesh" id=8]
-material = SubResource( 2 )
-size = Vector3( 100, 2, 100 )
+[sub_resource type="QuadMesh" id=17]
+size = Vector2( 12, 6 )
 
-[sub_resource type="BoxShape" id=9]
-extents = Vector3( 50, 1, 50 )
+[sub_resource type="ViewportTexture" id=19]
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 2 )
-shader_param/Offset = Vector3( 0, 0.5, 0 )
-shader_param/Scale = 1.0
-shader_param/Colour = Color( 1, 0, 0.960784, 1 )
-
-[sub_resource type="CubeMesh" id=6]
-material = SubResource( 5 )
-size = Vector3( 10, 1, 10 )
-
-[sub_resource type="BoxShape" id=7]
-extents = Vector3( 5, 0.5, 5 )
+[sub_resource type="SpatialMaterial" id=18]
+flags_transparent = true
+flags_unshaded = true
+params_cull_mode = 2
+albedo_texture = SubResource( 19 )
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
 start_point_path = NodePath("SpawnPoint")
 
 [node name="SpawnPoint" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.03127, 2.41237, -24.7404 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.43, -30.0454 )
 
 [node name="DeathAreas" type="Spatial" parent="."]
 
@@ -51,25 +42,74 @@ shape = SubResource( 10 )
 
 [node name="LevelGeometry" type="Spatial" parent="."]
 
-[node name="MeshInstance" type="MeshInstance" parent="LevelGeometry"]
-mesh = SubResource( 8 )
-skeleton = NodePath("StaticBody2/CollisionShape")
-material/0 = null
+[node name="BigTree0" parent="LevelGeometry" instance=ExtResource( 2 )]
 
-[node name="StaticBody2" type="StaticBody" parent="LevelGeometry/MeshInstance"]
+[node name="Gui" type="Spatial" parent="."]
 
-[node name="CollisionShape" type="CollisionShape" parent="LevelGeometry/MeshInstance/StaticBody2"]
-shape = SubResource( 9 )
+[node name="Spatial2" type="Spatial" parent="Gui"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 23, -36 )
 
-[node name="MeshInstance2" type="MeshInstance" parent="LevelGeometry"]
-transform = Transform( -2.88102e-08, -1, 0, 1, -2.88102e-08, 0, 0, 0, 1, 18, 5, -8.977 )
-cast_shadow = 0
-mesh = SubResource( 6 )
-skeleton = NodePath("StaticBody3/CollisionShape")
-material/0 = null
+[node name="Viewport" type="Viewport" parent="Gui/Spatial2"]
+size = Vector2( 3600, 1800 )
+transparent_bg = true
+usage = 0
+render_target_v_flip = true
 
-[node name="StaticBody3" type="StaticBody" parent="LevelGeometry/MeshInstance2"]
+[node name="Control" type="Panel" parent="Gui/Spatial2/Viewport"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 5 )
 
-[node name="CollisionShape" type="CollisionShape" parent="LevelGeometry/MeshInstance2/StaticBody3"]
-transform = Transform( 1, -1.49012e-08, 0, 1.49012e-08, 1, 0, 0, 0, 1, 0, 0, 0 )
-shape = SubResource( 7 )
+[node name="ScrollContainer" type="ScrollContainer" parent="Gui/Spatial2/Viewport/Control"]
+anchor_left = 0.025
+anchor_top = 0.05
+anchor_right = 0.975
+anchor_bottom = 0.95
+
+[node name="GridContainer" type="GridContainer" parent="Gui/Spatial2/Viewport/Control/ScrollContainer"]
+margin_right = 3104.0
+margin_bottom = 3612.0
+rect_min_size = Vector2( -930, 0 )
+columns = 2
+
+[node name="Control" parent="Gui/Spatial2/Viewport/Control/ScrollContainer/GridContainer" instance=ExtResource( 6 )]
+
+[node name="Control2" parent="Gui/Spatial2/Viewport/Control/ScrollContainer/GridContainer" instance=ExtResource( 6 )]
+margin_left = 1554.0
+margin_right = 3104.0
+
+[node name="Control3" parent="Gui/Spatial2/Viewport/Control/ScrollContainer/GridContainer" instance=ExtResource( 6 )]
+margin_top = 904.0
+margin_bottom = 1804.0
+
+[node name="Control4" parent="Gui/Spatial2/Viewport/Control/ScrollContainer/GridContainer" instance=ExtResource( 6 )]
+margin_left = 1554.0
+margin_top = 904.0
+margin_right = 3104.0
+margin_bottom = 1804.0
+
+[node name="Control5" parent="Gui/Spatial2/Viewport/Control/ScrollContainer/GridContainer" instance=ExtResource( 6 )]
+margin_top = 1808.0
+margin_bottom = 2708.0
+
+[node name="Control6" parent="Gui/Spatial2/Viewport/Control/ScrollContainer/GridContainer" instance=ExtResource( 6 )]
+margin_left = 1554.0
+margin_top = 1808.0
+margin_right = 3104.0
+margin_bottom = 2708.0
+
+[node name="Control7" parent="Gui/Spatial2/Viewport/Control/ScrollContainer/GridContainer" instance=ExtResource( 6 )]
+margin_top = 2712.0
+margin_bottom = 3612.0
+
+[node name="Area" type="Area" parent="Gui/Spatial2"]
+collision_layer = 32768
+script = ExtResource( 4 )
+viewport_path = NodePath("../Viewport")
+
+[node name="CollisionShape" type="CollisionShape" parent="Gui/Spatial2/Area"]
+shape = SubResource( 11 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Gui/Spatial2/Area"]
+mesh = SubResource( 17 )
+material/0 = SubResource( 18 )

@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://menus/main.theme" type="Theme" id=1]
+[ext_resource path="res://fonts/orbitron_black_big.tres" type="DynamicFont" id=2]
+
+[node name="Control" type="Control"]
+margin_right = 1550.0
+margin_bottom = 900.0
+rect_min_size = Vector2( 1550, 900 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Panel" parent="."]
+anchor_left = 0.02
+anchor_top = 0.05
+anchor_right = 0.98
+anchor_bottom = 0.95
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Control"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -490.0
+margin_right = -40.0
+margin_bottom = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Load"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="Control"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_right = 490.0
+margin_bottom = -40.0
+grow_vertical = 0
+text = "Delete"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Control"]
+margin_left = 104.0
+margin_top = 72.0
+margin_right = 787.0
+margin_bottom = 200.0
+text = "File name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Control"]
+margin_left = 108.0
+margin_top = 244.0
+margin_right = 847.0
+margin_bottom = 372.0
+custom_fonts/font = ExtResource( 2 )
+text = "Progress info"
+__meta__ = {
+"_edit_use_anchors_": false
+}

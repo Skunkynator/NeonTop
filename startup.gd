@@ -8,6 +8,7 @@ func _ready() -> void:
 	LevelController.load_level("res://menus/main_menu.tscn")
 	queue_free()
 
+
 func get_player() -> Player:
 	var player := preload("res://gameplay/player/player.tscn").instance() as Player
 	return player
