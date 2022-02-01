@@ -4,10 +4,14 @@
 [ext_resource path="res://menus/pause_menu_controller.gd" type="Script" id=2]
 
 [node name="PauseMenu" type="Panel"]
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.9
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -700.0
+margin_top = -400.0
+margin_right = 700.0
+margin_bottom = 400.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -32,6 +36,7 @@ anchor_top = 0.3
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -400.0
+margin_top = -0.200012
 margin_right = 400.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -43,15 +48,17 @@ __meta__ = {
 }
 
 [node name="Continue" type="Button" parent="Buttons"]
-margin_top = 121.0
+margin_top = 131.0
 margin_right = 800.0
-margin_bottom = 289.0
+margin_bottom = 267.0
+grow_horizontal = 2
 text = "Continue"
 
 [node name="Quit" type="Button" parent="Buttons"]
-margin_top = 314.0
+margin_top = 292.0
 margin_right = 800.0
-margin_bottom = 482.0
+margin_bottom = 428.0
+grow_horizontal = 2
 text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
