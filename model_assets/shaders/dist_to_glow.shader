@@ -1,9 +1,10 @@
 shader_type spatial;
-render_mode unshaded;
+//render_mode unshaded;
 
 uniform sampler2D dist_map : hint_black;
 uniform vec4 colour : hint_color;
-uniform float inv_glow_strength : hint_range(1,16) = 1;
+uniform float glow_strength : hint_range(0,10) = 1;
+uniform float glow_area : hint_range(0,2) = 0.1;
 uniform bool vertex_displacement = false;
 uniform float strength = 0.3;
 const float displace_modx = 3.1415926538;
@@ -22,7 +23,7 @@ void vertex() {
 }
 
 void fragment() {
-	float glow = 1. - texture(dist_map,UV).r;
-	glow = pow(glow,inv_glow_strength);
-	ALBEDO.rgb = glow * colour.rgb;
+	ALBEDO.rgb = vec3(0);
+	float glow = 1. - smoothstep(0,glow_area,texture(dist_map,UV).r);
+	EMISSION.rgb = glow * colour.rgb * glow_strength;
 }
