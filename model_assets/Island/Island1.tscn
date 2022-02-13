@@ -5,8 +5,9 @@
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 1 )
-shader_param/colour = Color( 0.317647, 0.317647, 0.317647, 1 )
-shader_param/inv_glow_strength = 8.0
+shader_param/colour = Color( 1, 1, 1, 1 )
+shader_param/glow_strength = 2.5
+shader_param/glow_area = 0.2
 shader_param/vertex_displacement = false
 shader_param/strength = 0.3
 shader_param/dist_map = ExtResource( 2 )
