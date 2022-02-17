@@ -2,19 +2,21 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Island0.png-ac4faed20d0ac0b86163a3bc751ab087.stex"
+path.s3tc="res://.import/Island0.png-ac4faed20d0ac0b86163a3bc751ab087.s3tc.stex"
+path.etc2="res://.import/Island0.png-ac4faed20d0ac0b86163a3bc751ab087.etc2.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://model_assets/Island/Island0.png"
-dest_files=[ "res://.import/Island0.png-ac4faed20d0ac0b86163a3bc751ab087.stex" ]
+dest_files=[ "res://.import/Island0.png-ac4faed20d0ac0b86163a3bc751ab087.s3tc.stex", "res://.import/Island0.png-ac4faed20d0ac0b86163a3bc751ab087.etc2.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.74
 compress/hdr_mode=0
 compress/bptc_ldr=0
